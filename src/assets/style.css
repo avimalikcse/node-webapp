@@ -1,0 +1,103 @@
+.container {
+    float: left;
+    padding: 2%;
+    margin: 2%;
+    width: 92%;
+    background-color: #f1f1f1;
+}
+
+.popupOpen {
+    overflow: hidden;
+}
+
+.popupButton {
+    background-color: cornflowerblue;
+    border-radius: 6px;
+    color: ghostwhite;
+}
+
+.overlay {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    visibility: hidden;
+    opacity: 0;
+    position: relative;
+    overflow: scroll;
+}
+
+.largeContent .content {
+    height: 100%;
+}
+
+.largeContent .stickyFooter {
+    position: sticky;
+    bottom: 0px;
+}
+
+.largeContent .stickyHeader {
+    position: sticky;
+    top: 0px;
+    background: white;
+}
+
+.popupOpen .overlay {
+    visibility: visible;
+    opacity: 1;
+    position: fixed;
+}
+
+.popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+}
+
+.largeContent {
+    margin-top: 0px;
+    top: 0px;
+}
+
+.popUpFooter {
+    background-color: wheat;
+    text-align: center;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+.popup #closePopup {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.popup .close:hover {
+    color: #06D85F;
+}
+
+.popup .content {
+    overflow: auto;
+}
+
+@media screen and (max-width: 600px) {
+    .box {
+        width: 70%;
+    }
+    .popup {
+        width: 88%;
+    }
+}

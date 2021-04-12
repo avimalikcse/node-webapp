@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML>
+
+<HEAD>
+    <TITLE>Test Task</TITLE>
+    <LINK rel="stylesheet" href="/style.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</HEAD>
+
+<body id="bodyTag">
+    <div class="container">
+        <!-- Initial Loader  -->
+        <div id='loader'> loading page Content</div>
+        <!-- dynamic data will be mounted on this  -->
+        <div id='pageContent'></div>
+    </div>
+    <!-- Main Script logic
+        could be refactored and moved to a separate JS file
+    -->
+    <script>
+        let isContentLoaded = false // indicator to check whether content is loaded or not
+        let smallContent;
+        let largeContent;
+        let contentType = 'small' // initial value of contentType
+
+
+        /**
+         *  Wrapper function to call API/request
+         */
+
+        function fetchContent(path) {
+            return fetch(path).then(response => response.text())
+        }
+
+        /** 
+         * 
+         * Toggle function to add remove class to the body, 
+         * so that popup can be visible or hidden on bases of that
+         */
+
+        function togglePopup() {
+            const bodyElm = document.getElementById('bodyTag')
+            bodyElm.classList.toggle("popupOpen");
+            if (!isContentLoaded) {
+                switchContent()
+                isContentLoaded = true
+            }
+        }
+        /**
+         * 
+         * Main function to switch content on click of button
+         * 
+         * will memorize the data after initial API Call
+         * 
+         * */
+        async function switchContent() {
+            const bodyElm = document.getElementById('popupWrapper')
+            bodyElm.classList.toggle("largeContent");
+            if (contentType === 'small') {
+                if (!smallContent) smallContent = await loadPopupContent('small')
+                document.getElementById('popupContent').innerHTML = smallContent
+                contentType = 'large'
+            } else if (contentType === 'large') {
+                if (!largeContent) largeContent = await loadPopupContent('large')
+                document.getElementById('popupContent').innerHTML = largeContent
+                contentType = 'small'
+            }
+        }
+
+        // wrapper function to call popup content
+        function loadPopupContent(type = 'small') {
+            return fetchContent(type === 'small' ? '/get-small-content' : '/get-large-content')
+        }
+
+        // a global click listener to listen various onclick
+        document.addEventListener("click", function(evnt) {
+            switch (evnt.target.id) {
+                case 'popupButton':
+                case 'closePopup':
+                    togglePopup()
+                case 'changeText':
+                    switchContent()
+                default:
+                    return true
+            }
+        });
+
+
+        // load data after initialization of page
+        window.onload = async function(e) {
+            const response = await fetchContent('/get-page-content')
+            document.getElementById('pageContent').innerHTML = response
+            document.getElementById('loader').remove()
+
+        }
+    </script>
+</body>
+
+</HTML>
